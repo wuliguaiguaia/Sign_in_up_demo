@@ -4,7 +4,7 @@
 2. 用户所有数据保存在 db.json（模拟数据库）
 
 
-# 步骤：
+## 步骤：
 1. 前端获取用户注册数据并做初次验证，将数据ajax发给后台
 ```js
 $.post("/sign_up", hash).then((res) => {...}, (err) => {...})
@@ -138,7 +138,7 @@ if(inUse){...}else{...}
 
 7. 当用户再次打开页面时，就会根据cookie展示用户页面，如果当前电脑没有cookie,需要重新登录
 
-Project Screenshots
+### Project Screenshots
 
 1. 所有人都可以看到的
 

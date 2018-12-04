@@ -41,7 +41,7 @@ a {
     margin: auto;
     height: 430px;
     position: absolute;
-    background: url(./form-bg.jpg) no-repeat center;
+    background: url(form-bg.jpg) no-repeat center;
     top: 50%;
     transform: translateY(-50%);
     right: 200px;
@@ -207,4 +207,68 @@ a {
     font-weight: normal;
     font-size: 12px;
     text-align: center;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+}
+
+#spark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(bg.jpg) no-repeat;
+    background-size: cover;
+    /* animation: spark .1s infinite; */
+    z-index: -1;
+}
+
+.wrapper {
+    padding: 50px;
+}
+
+.wrapper h1 {
+    margin-bottom: 30px;
+}
+
+.main-btn {
+    padding: 10px;
+    color: #fff;
+    background: #c55e5e;
+    border: none;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.middle-text {
+    background: rgba(0, 0, 0, .7);
+    width: 100vw;
+    position: absolute;
+    top: 40%;
+    line-height: 102px;
+    font-size:31px;
+    padding-left: 38px;
+}
+
+@keyframes spark {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+.head-toggle1,.form-wrap{
+    display: none;
+}
+#signIn-error{
+    position: absolute;
+    left: 10px;
 }
