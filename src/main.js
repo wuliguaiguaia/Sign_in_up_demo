@@ -10,17 +10,22 @@ let eventController = {
         this.submitEvents();
     },
     userInit() {
-        if (document.cookie) {
-            console.log('has cookie');
-            console.log(document.cookie.split("=")[0] === "sign_in_name");
-            if (document.cookie.split("=")[0] === "sign_in_name") {
-                $(".head-toggle1").show();
-                $(".head-toggle2").hide();
-                $("#myForm").hide();
-                let audio = $("<audio loop autoplay></audio>");
-                audio.attr("src", "./src/dj.mp3")
-                $("body").append(audio)
+        if ($(placeHolder).text() !== "__personName___") {
+            $(".head-toggle1").show();
+            $(".head-toggle2").hide();
+            $("#myForm").hide();
+            $("#audio").attr("autoplay",true);
+            setTimeout(()=>{
                 $("#spark").css("animation", "spark .1s infinite");
+            },2000)
+            if ($(placeHolder).text() !== "__personName___") {
+                let url = window.location.href;  
+                if (url.indexOf('?') > -1) { 
+                    if (url.indexOf('reloaded') < 0) { 
+                        url = url + "&reloaded=true";  
+                        window.location = url; 
+                    }
+                }
             }
         } else {
             $(".head-toggle1").hide();
