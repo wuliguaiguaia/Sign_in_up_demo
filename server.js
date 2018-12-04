@@ -8,6 +8,8 @@ if (!port) {
     process.exit(1)
 }
 
+let sessions = {};
+
 var server = http.createServer(function (request, response) {
     var parsedUrl = url.parse(request.url, true)
     var pathWithQuery = request.url
@@ -36,14 +38,39 @@ var server = http.createServer(function (request, response) {
 
     console.log('含查询字符串的路径\n' + pathWithQuery)
 
+
     if (path === '/') {
         let string = fs.readFileSync('./index.html', 'utf8');
+        let cookies = '';
         if (request.headers.cookie) {
-            let cookie = request.headers.cookie;
-            if (cookie.split('=')[0] === 'sign_in_name') {
-                let name = cookie.split('=')[1]
-                string = string.replace('__personName___', name);
+            cookies = request.headers.cookie.split("; ");
+        }
+        let hash = {};
+        for(let i=0;i<cookies.length;i++){
+            let parts = cookies[i].split("=");
+            let [key,val] = parts;
+            hash[key] = val;
+        }
+        let mySession = sessions[hash.sessionId]; 
+        let name;
+        if(mySession){
+            name = mySession.sign_in_name;
+        }
+        
+        // 判断用户是否存在
+        let users = fs.readFileSync("./db","utf8");
+        users = JSON.parse(users);
+        let  flag = false;
+        for(let i=0;i<users.length;i++){
+            console.log(users[i]);
+            
+            if(users[i].name === name){
+                flag = true;
+                break;
             }
+        }
+        if(flag){
+            string = string.replace('__personName___', name);
         }
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
@@ -128,7 +155,10 @@ var server = http.createServer(function (request, response) {
             response.setHeader('Content-Type', 'text/json;charset=utf-8');
             if (flag) {
                 console.log('sign in success');
-                response.setHeader('Set-Cookie', `sign_in_name=${name}`)
+                let sessionId = Math.random()*10000000;
+                sessions[sessionId] = {sign_in_name:name}
+                
+                response.setHeader('Set-Cookie', `sessionId=${sessionId}`)
                 response.statusCode = 200;
                 response.write(`{"status":"success"}`);
             } else {
