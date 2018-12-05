@@ -173,7 +173,7 @@ var server = http.createServer(function (request, response) {
             response.end()
         });
     } else if (path === "/src/main.css") {
-        let string = fs.readFileSync('/src/main.css', 'utf8');
+        let string = fs.readFileSync('./src/main.css', 'utf8');
 
         // last-modify
         /*
@@ -181,13 +181,14 @@ var server = http.createServer(function (request, response) {
         if (request.headers['if-modified-since'] === curTime) {
             response.statusCode = 304
         } else {
-            response.statusCode = 200
             response.setHeader('Last-Modified', curTime);
-            response.setHeader('Content-Type', 'text/css;charset=utf-8')
-            response.write(string)
         }
         */
 
+
+       response.statusCode = 200
+       response.setHeader('Content-Type', 'text/css;charset=utf-8')
+        response.write(string)
 
         response.end()
 
@@ -207,7 +208,7 @@ var server = http.createServer(function (request, response) {
 
         // cache-control
         response.setHeader('Cache-Control', 'max-age=30000000')
-        
+
         response.write(string)
         response.end()
     } else if (path === "/src/form-bg.jpg") {
